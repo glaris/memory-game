@@ -2,6 +2,7 @@ import { emojis, cards } from './cards.js';
 import { movesElement, pairsElement } from './ui.js';
 
 const totalPairs = emojis.length;
+const closeTime = 1000;
 
 const state = {
     firstCard: null,
@@ -9,7 +10,8 @@ const state = {
     moves: 0,
     pairs: 0,
     isLocked: false,
-    isGameOver: false
+    isGameOver: false,
+    timerId: null
 };
 
 function updateCounters() {
@@ -20,6 +22,20 @@ function updateCounters() {
 function openCard(cardElement, card) {
     cardElement.classList.add('card--open');
     cardElement.textContent = card.emoji;
+}
+
+function closeCard(cardElement) {
+    cardElement.classList.remove('card--open');
+    cardElement.textContent = '';
+}
+
+function closeUnmatchedPair() {
+    closeCard(state.firstCard.element);
+    closeCard(state.secondCard.element);
+    state.firstCard = null;
+    state.secondCard = null;
+    state.isLocked = false;
+    state.timerId = null;
 }
 
 function checkPair() {
@@ -35,6 +51,7 @@ function checkPair() {
         }
     } else {
         state.isLocked = true;
+        state.timerId = setTimeout(closeUnmatchedPair, closeTime);
     }
 }
 
