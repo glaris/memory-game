@@ -1,6 +1,7 @@
 import { emojis, cards, shuffle } from './cards.js';
 import { movesElement, pairsElement, renderBoard } from './ui.js';
 import { openModal, closeModal } from './modal.js';
+import { saveResult } from './leaderboard.js';
 
 const totalPairs = emojis.length;
 const closeAfterMs = 1000;
@@ -128,6 +129,7 @@ export function handleCardClick(event) {
     updateCounters();
 
     if (state.isGameOver) {
+        saveResult(state.moves);
         showVictoryModal();
     }
 }
