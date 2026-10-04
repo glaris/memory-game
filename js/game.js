@@ -1,5 +1,6 @@
 import { emojis, cards, shuffle } from './cards.js';
 import { movesElement, pairsElement, renderBoard } from './ui.js';
+import { openModal, closeModal } from './modal.js';
 
 const totalPairs = emojis.length;
 const closeAfterMs = 1000;
@@ -70,6 +71,32 @@ function checkPair() {
     }
 }
 
+function startNewGameFromModal() {
+    closeModal();
+    startNewGame();
+}
+
+function showVictoryModal() {
+    const victory = document.createElement('div');
+    victory.classList.add('victory');
+
+    const victoryMessage = document.createElement('p');
+    victoryMessage.classList.add('victory__message');
+    victoryMessage.textContent = 'You won! \u{1F389}';
+
+    const victoryMoves = document.createElement('p');
+    victoryMoves.classList.add('victory__moves');
+    victoryMoves.textContent = `Moves: ${state.moves}`;
+
+    const victoryNewGameButton = document.createElement('button');
+    victoryNewGameButton.classList.add('victory__button', 'button');
+    victoryNewGameButton.textContent = 'New Game';
+    victoryNewGameButton.addEventListener('click', startNewGameFromModal);
+
+    victory.append(victoryMessage, victoryMoves, victoryNewGameButton);
+    openModal(victory);
+}
+
 export function handleCardClick(event) {
     const cardElement = event.target.closest('.card');
 
@@ -99,4 +126,8 @@ export function handleCardClick(event) {
     state.moves += 1;
     checkPair();
     updateCounters();
+
+    if (state.isGameOver) {
+        showVictoryModal();
+    }
 }
