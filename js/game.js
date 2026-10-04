@@ -1,8 +1,8 @@
-import { emojis, cards } from './cards.js';
-import { movesElement, pairsElement } from './ui.js';
+import { emojis, cards, shuffle } from './cards.js';
+import { movesElement, pairsElement, renderBoard } from './ui.js';
 
 const totalPairs = emojis.length;
-const closeTime = 1000;
+const closeAfterMs = 1000;
 
 const state = {
     firstCard: null,
@@ -17,6 +17,21 @@ const state = {
 function updateCounters() {
     movesElement.textContent = `Moves: ${state.moves}`;
     pairsElement.textContent = `Pairs: ${state.pairs} of ${totalPairs}`;
+}
+
+export function startNewGame() {
+    clearTimeout(state.timerId);
+
+    state.firstCard = null;
+    state.secondCard = null;
+    state.moves = 0;
+    state.pairs = 0;
+    state.isLocked = false;
+    state.isGameOver = false;
+    state.timerId = null;
+
+    updateCounters();
+    renderBoard(shuffle(cards));
 }
 
 function openCard(cardElement, card) {
@@ -51,7 +66,7 @@ function checkPair() {
         }
     } else {
         state.isLocked = true;
-        state.timerId = setTimeout(closeUnmatchedPair, closeTime);
+        state.timerId = setTimeout(closeUnmatchedPair, closeAfterMs);
     }
 }
 
@@ -85,3 +100,5 @@ export function handleCardClick(event) {
     checkPair();
     updateCounters();
 }
+
+

@@ -1,15 +1,12 @@
-import { cards, shuffle } from './cards.js';
-import { container, header, counters, board, renderBoard } from './ui.js';
-import { handleCardClick } from './game.js';
-
-
-const shuffledCards = shuffle(cards);
+import { container, header, counters, board, renderBoard, newGameButton } from './ui.js';
+import { handleCardClick, startNewGame } from './game.js';
 
 container.append(header, counters, board);
 document.body.append(container);
 
-renderBoard(shuffledCards);
+startNewGame();
 board.addEventListener('click', handleCardClick);
+newGameButton.addEventListener('click', startNewGame);
 
 
 
