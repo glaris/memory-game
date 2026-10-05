@@ -1,5 +1,3 @@
-// import { container } from './ui.js';
-
 let activeModal = null;
 
 export function openModal(content) {

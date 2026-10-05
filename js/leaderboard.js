@@ -31,6 +31,23 @@ export function saveResult(moves) {
     localStorage.setItem(storageKey, JSON.stringify(getTopResults(results)));
 }
 
+function formatDateToString(timestamp) {
+    const date = new Date(timestamp);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}.${month}.${year}`;
+}
+
+function createTableCell(tagName, text) {
+    const cell = document.createElement(tagName);
+    cell.classList.add('leaderboard__cell');
+    cell.textContent = text;
+
+    return cell;
+}
+
 export function createLeaderboardContent() {
     const results = getTopResults(loadResults());
 
@@ -46,17 +63,32 @@ export function createLeaderboardContent() {
         return leaderboard;
     }
 
-    const list = document.createElement('ul');
-    list.classList.add('leaderboard__list');
+    const table = document.createElement('table');
+    table.classList.add('leaderboard__table');
 
-    for (const result of results) {
-        const item = document.createElement('li');
-        item.classList.add('leaderboard__item');
-        item.textContent = `Moves: ${result.moves}`;
-        list.append(item);
+    const tableHead = document.createElement('thead');
+    const tableHeadRow = document.createElement('tr');
+    tableHeadRow.append(
+        createTableCell('th', 'Rank'),
+        createTableCell('th', 'Moves'),
+        createTableCell('th', 'Date')
+    );
+    tableHead.append(tableHeadRow);
+
+    const tableBody = document.createElement('tbody');
+
+    for (let i = 0; i < results.length; i++) {
+        const tableBodyRow = document.createElement('tr');
+        tableBodyRow.append(
+            createTableCell('td', i + 1),
+            createTableCell('td', results[i].moves),
+            createTableCell('td', formatDateToString(results[i].finishedAt))
+        );
+        tableBody.append(tableBodyRow);
     }
 
-    leaderboard.append(list);
+    table.append(tableHead, tableBody);
+    leaderboard.append(table);
 
     return leaderboard;
 }
