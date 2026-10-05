@@ -1,10 +1,12 @@
-# Memory Game
+# Memory Game: IT Edition
 
 A browser-based memory card game where the player finds matching pairs of cards.
  
 The game contains 16 cards with 8 matching pairs. Cards are shuffled at the start of each game. The player can track the number of moves and found pairs. After completing the game, the result is saved to the leaderboard. The leaderboard displays up to 10 best results, sorted by the number of moves and date.
 
 The interface is created dynamically with JavaScript, and no image files are used. The cards use Unicode emoji characters as their visual content.
+
+The set is themed around IT: tools, languages and programming symbols.
 
 > [!NOTE]
 > Emoji may look different depending on the device and operating system.
