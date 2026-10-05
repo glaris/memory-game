@@ -14,7 +14,6 @@ leaderboardButton.textContent = 'Leaderboard';
 
 header.append(newGameButton, leaderboardButton);
 
-
 export const counters = document.createElement('div');
 counters.classList.add('counters');
 
@@ -25,7 +24,6 @@ export const pairsElement = document.createElement('span');
 pairsElement.textContent = 'Pairs: 0 of 8';
 
 counters.append(movesElement, pairsElement);
-
 
 export const board = document.createElement('div');
 board.classList.add('board');
