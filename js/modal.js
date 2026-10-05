@@ -1,4 +1,4 @@
-import { container } from './ui.js';
+// import { container } from './ui.js';
 
 let activeModal = null;
 
@@ -27,7 +27,7 @@ export function openModal(content) {
 
     document.body.append(modal);
     document.body.classList.add('no-scroll');
-    container.inert = true;
+    // container.inert = true;
     closeModalButton.focus();
 
     activeModal = modal;
@@ -42,7 +42,7 @@ export function closeModal() {
     activeModal.remove();
     activeModal = null;
     document.body.classList.remove('no-scroll');
-    container.inert = false;
+    // container.inert = false;
 }
 
 function handleBackdropClick(event) {

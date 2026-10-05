@@ -1,4 +1,5 @@
 const storageKey = 'memory-game-results';
+const maxResults = 10;
 
 function loadResults() {
     const saved = localStorage.getItem(storageKey);
@@ -10,16 +11,28 @@ function loadResults() {
     return JSON.parse(saved);
 }
 
+function getTopResults(results) {
+    const sorted = [...results].sort((a, b) => {
+        if (a.moves !== b.moves) {
+            return a.moves - b.moves;
+        }
+
+        return a.finishedAt - b.finishedAt;
+    });
+
+    return sorted.slice(0, maxResults);
+}
+
 export function saveResult(moves) {
     const saved = localStorage.getItem(storageKey);
     const results = loadResults();
 
     results.push({ moves, finishedAt: Date.now() });
-    localStorage.setItem(storageKey, JSON.stringify(results));
+    localStorage.setItem(storageKey, JSON.stringify(getTopResults(results)));
 }
 
 export function createLeaderboardContent() {
-    const results = loadResults();
+    const results = getTopResults(loadResults());
 
     const leaderboard = document.createElement('div');
     leaderboard.classList.add('leaderboard');
